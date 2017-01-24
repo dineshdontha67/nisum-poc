@@ -1,0 +1,71 @@
+buildscript {
+	/*ext{
+		//dependencies
+		springSecurityVersion = '1.4.1.RELEASE'
+	}*/
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+war {
+	baseName = 'nisum-poc'
+	version = '1.0'
+}
+
+dependencies {
+
+	//compile("org.springframework.boot:spring-boot-starter")
+	/*{
+		exclude  group:"org.springframework.boot", module:"spring-boot-starter-logging"
+	}*/
+
+	compile("org.springframework.boot:spring-boot-starter-web")
+	/*{
+		exclude group:"org.springframework.boot", module:"spring-boot-starter-logging"
+	}*/
+	
+	compile("com.h2database:h2")
+	
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	
+	compile("org.apache.tomcat.embed:tomcat-embed-jasper") //to render jsps
+	
+	compile("org.springframework.boot:spring-boot-starter-thymeleaf") //to render html
+	
+	compile("org.springframework.boot:spring-boot-starter-security:1.4.1.RELEASE") //to security
+	
+	compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4") //thymeleaf security
+	
+	compile("org.springframework.boot:spring-boot-starter-actuator")
+	
+	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+	
+	compile("org.springframework.boot:spring-boot-starter-log4j2")
+	
+	//not sure
+	//compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:1.2.3")
+	
+	//
+	//compile("org.thymeleaf:thymeleaf:3.0.3.RELEASE")
+	
+	testCompile("junit:junit")
+	
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+	
+	testCompile("org.mockito:mockito-all:1.9.5")
+}

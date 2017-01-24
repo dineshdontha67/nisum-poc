@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="utf-8"></meta>
+<meta name="viewport" content="width=device-width, initial-context=1.0"></meta>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+
+ 
+<title>User</title>
+</head>
+<body>
+	<!-- <p sec:authorize="hasRole('ROLE_MANAGER')"> User can see this </p>
+	
+	<p sec:authorize="hasRole('ROLE_ADMIN')"> Admin can see this </p> -->
+	<sec:authorize access="hasAuthority('ADMIN')"><p> User should not see </p></sec:authorize>
+	
+	<sec:authorize access="hasAnyRole('ROLE_USER')"><p> User can see this </p></sec:authorize>
+	
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN')"><p> Admin can see this </p></sec:authorize>
+	
+</body>
+</html>

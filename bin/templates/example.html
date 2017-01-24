@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"></meta>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, intial-scale=1"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+		<script type="text/javascript">
+			console.log('jsjs')
+			var app = angular.module('nConnectApp',["ngRoute"]);
+			
+			app.controller('ctrl',function($scope){
+				$scope.message = "About Message";
+			});
+			
+			/* app.controller('featuresCtrl',function(){
+				$scope.message = "Feature Message";
+			}); */
+			
+			app.config(function($routeProvider){
+				$routeProvider
+				.when("/about", {
+					templateUrl: "static/about.html",
+					controller: "ctrl"
+				})
+				.when("/features",{
+					templateUrl: "static/features.html",
+					controller: "ctrl"
+				});
+			});
+		</script>
+	</head>
+	<body ng-app="nConnectApp" ng-controller="ctrl">
+		<a href="#about">About</a>
+		<a href="#features">Features</a>
+		<div ng-view="true"></div>
+	
+	</body>
+</html>

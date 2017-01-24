@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"></meta>
+<meta name="viewport" content="width=device-width, initial-context=1.0"></meta>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.0.2/ui-grid.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.0.2/ui-grid.min.js"></script>
+<style type="text/css">
+	.grid {
+		  width: 500px;
+		  height: 150px;
+		}
+</style>
+
+<!-- 
+<script type="text/javascript" th:src="@{/js/app/app.js}"></script>
+
+<script type="text/javascript" th:src="@{/js/sample.js}"></script> -->
+
+<!-- <script type="text/javascript" src="resources/app.js"></script>
+ -->
+ 
+ <script type="text/javascript">
+ 	var nisumApp = angular.module('SpringPocApp',['ui.grid']); //using ui-grid 
+ 	
+ 	nisumApp.controller('userController', function($scope, userService){
+ 		var User = {username: '', mail: '', country: '',pincode: ''};
+ 		
+ 		
+ 		$scope.callMe=function(){
+ 			console.log('I am in callMe function');
+ 			console.log($scope.User.pincode);
+ 			userService.printMe();
+ 			return User.name;
+ 		};
+ 		
+ 		$scope.createUser = function(){
+ 			User = $scope.User;
+ 			console.log('I am in createUser - controller');
+ 			console.log('In controller: User '+User);
+ 			var response = userService.createUser(User);
+ 			console.log('response from createUser call '+ response)
+ 		};
+ 		
+ 		$scope.columnDefs = [{field: 'name', displayName: 'First Name', width: "50%",resizable: true },
+ 		                    {field: 'age', displayName: 'Age', width: "*",resizable:false  }];
+ 		
+ 		 
+ 		/* $scope.sampleData =[{name: "Dinesh", age: 25},
+ 		                  {name: "siddha", age: 26},
+ 		                  {name: "suneetha",age: 27}]; */
+ 		
+ 		//$scope.gridOptions = {data: 'sampleData'/* , columnDefs: 'columnDefs' */};
+ 		
+ 		$scope.gridOptions ={
+ 				enableRowSelection: true,
+ 				multiSelect: false
+ 		};
+ 		
+ 		$scope.selectedRow = null;
+ 		
+ 		$scope.gridOptions.onRegisterApi = function(gridApi){
+ 			this.$scope.myGridApi = gridApi;
+ 			this.$scope.myGridApi.selection.on.rowSelectionChanged($scope,
+ 					function(row){
+ 					this.$scope.selectedRow = row.entity;
+ 					console.log(row.entity);
+ 			}.bind(this));
+ 		}.bind(this);
+ 		
+ 		
+ 		
+ 		
+ 		//$scope.gridOptions.data = 'sampleData';
+ 		$scope.gridOptions = {data: 'sampleData' };
+ 		
+ 		
+ 	});
+ 	
+ 	nisumApp.service('userService', function($http, $q){
+ 		
+ 		var baseURL ="/app";
+ 		
+ 		var reqConfig = {
+ 				headers:{
+ 					'Content-Type': 'application/json'
+ 				}
+ 		};
+ 		
+ 		this.printMe = function(){
+	 		console.log('I have called service');
+	 		return '';
+ 		};
+ 		
+ 		
+ 		this.createUser = function(user){
+ 			
+ 			var deferred = $q.defer;
+ 			
+ 			$http.post(baseURL+"/user", user, reqConfig)
+ 				.then(function(data, status, headers, config){
+ 					console.log(data);
+ 					return data;
+ 				},
+ 				function(data){
+ 					console.log(data);
+ 					return data;
+ 				});
+ 		};
+ 		
+ 		this.updateUser = function(user){
+ 			$http.put(baseURL+"/user", user, updateConfig)
+ 				.then(function(data, status, headers, config){
+ 					
+ 				},function(data){
+ 					
+ 				})
+ 		};
+ 	})
+ 
+ </script>
+<title>Registration</title>
+</head>
+<body ng-app="SpringPocApp"  ng-controller="userController">
+<div class="container">
+	<div class="page-header">
+		<h1>Register, here</h1>
+	</div>
+	<form class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-6 col-sm-offset-3">
+					<input type="text" name="username" 
+						class="form-control" placeholder="Your Name" ng-model="User.username"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-6 col-sm-offset-3">
+					<input type="email" name="mail" 
+						class="form-control" placeholder="Your Email" ng-model="User.mail"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-6 col-sm-offset-3">
+					<select class="selectpicker form-control" name="country" ng-model="User.country">
+						<option>India</option>
+						<option>Chile</option>
+						<option>USA</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-6 col-sm-offset-3">
+					<input type="text" name="pincode" 
+						class="form-control" placeholder="pincode" ng-model="User.pincode"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-6 col-sm-offset-3">
+					<button class="btn btn-success" ng-click="createUser()">
+						<small>Save</small>
+					</button>
+				</div>
+			</div>
+	</form>
+	<div class="grid col-sm-6 col-sm-offset-2" ui-grid="gridOptions">		
+	</div>
+</div>
+</body>
+</html>
