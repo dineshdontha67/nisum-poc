@@ -1,0 +1,12 @@
+---
+applications:
+- name: nisum-connect
+  buildpack: java_buildpack
+  instances: 1
+  memory: 1G
+  random-route: true
+  path: build/libs/NisumConnect.war
+  env:
+    JBP_CONFIG_OPENJDK: 'verion: 1.8.+'
+ # services:
+ # - mongoInstance
